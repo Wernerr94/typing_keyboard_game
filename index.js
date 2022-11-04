@@ -1,32 +1,32 @@
 "use strict";
 
 const keyboard = [
-  { name: "KeyQ", type: "usual", imgPath: "./images/Q.png" },
-  { name: "KeyW", type: "usual", imgPath: "./images/W.png" },
-  { name: "KeyE", type: "usual", imgPath: "./images/E.png" },
-  { name: "KeyR", type: "usual", imgPath: "./images/R.png" },
-  { name: "KeyT", type: "usual", imgPath: "./images/T.png" },
-  { name: "KeyY", type: "usual", imgPath: "./images/Y.png" },
-  { name: "KeyU", type: "usual", imgPath: "./images/U.png" },
-  { name: "KeyI", type: "usual", imgPath: "./images/I.png" },
-  { name: "KeyO", type: "usual", imgPath: "./images/O.png" },
-  { name: "KeyP", type: "usual", imgPath: "./images/P.png" },
-  { name: "KeyA", type: "usual", imgPath: "./images/A.png" },
-  { name: "KeyS", type: "usual", imgPath: "./images/S.png" },
-  { name: "KeyD", type: "usual", imgPath: "./images/D.png" },
-  { name: "KeyF", type: "usual", imgPath: "./images/F.png" },
-  { name: "KeyG", type: "usual", imgPath: "./images/G.png" },
-  { name: "KeyH", type: "usual", imgPath: "./images/H.png" },
-  { name: "KeyJ", type: "usual", imgPath: "./images/J.png" },
-  { name: "KeyK", type: "usual", imgPath: "./images/K.png" },
-  { name: "KeyL", type: "usual", imgPath: "./images/L.png" },
-  { name: "KeyZ", type: "usual", imgPath: "./images/Z.png" },
-  { name: "KeyX", type: "usual", imgPath: "./images/X.png" },
-  { name: "KeyC", type: "usual", imgPath: "./images/C.png" },
-  { name: "KeyV", type: "usual", imgPath: "./images/V.png" },
-  { name: "KeyB", type: "usual", imgPath: "./images/B.png" },
-  { name: "KeyN", type: "usual", imgPath: "./images/N.png" },
-  { name: "KeyM", type: "usual", imgPath: "./images/M.png" },
+  { name: "KeyQ" },
+  { name: "KeyW" },
+  { name: "KeyE" },
+  { name: "KeyR" },
+  { name: "KeyT" },
+  { name: "KeyY" },
+  { name: "KeyU" },
+  { name: "KeyI" },
+  { name: "KeyO" },
+  { name: "KeyP" },
+  { name: "KeyA" },
+  { name: "KeyS" },
+  { name: "KeyD" },
+  { name: "KeyF" },
+  { name: "KeyG" },
+  { name: "KeyH" },
+  { name: "KeyJ" },
+  { name: "KeyK" },
+  { name: "KeyL" },
+  { name: "KeyZ" },
+  { name: "KeyX" },
+  { name: "KeyC" },
+  { name: "KeyV" },
+  { name: "KeyB" },
+  { name: "KeyN" },
+  { name: "KeyM" },
 ];
 
 function getRandomButtonIndex() {
@@ -66,7 +66,7 @@ let countGoldenButtonPoints = 0;
 let countUsualButtonsPoints = 0;
 let totalPoints = 0;
 
-// start/end
+// start
 let isPlaying = false;
 const startButton = document.createElement("button");
 startButton.classList.add("start");
@@ -75,13 +75,12 @@ mainContainer.appendChild(startButton);
 // timer
 const timerValue = document.createElement("h1");
 timerValue.classList.add("timer");
-// start events
+// start event
 startButton.addEventListener("click", startGame);
 
 //key mathcing event
 document.addEventListener("keydown", (event) => {
   event.preventDefault();
-  // console.log(event.code);
   let pressedKeyName = event.code;
   let fallingKey = document.querySelector(`.${pressedKeyName}`);
   if (fallingKey) {
@@ -94,17 +93,10 @@ document.addEventListener("keydown", (event) => {
       } else {
         countUsualButtonsPoints += usualPoints;
       }
-
-      totalPoints = countUsualButtonsPoints + countGoldenButtonPoints;
-      h2.textContent = "Total";
-      span.textContent = totalPoints;
-      h3.textContent = "Golden Letters:";
-      span1.textContent = `x${countGoldenButtons} : `;
-      span2.textContent = countGoldenButtonPoints;
     }
   }
 });
-// sapwn letter in window
+// create letter in window
 function createLetter() {
   let randomButton = keyboard[getRandomButtonIndex()];
   const container = document.createElement("div");
@@ -114,8 +106,8 @@ function createLetter() {
   container.classList.add(randomButton.name);
   container.classList.add("letter");
   // randomly sets golden letter
-  const randomNamber = Math.floor(Math.random() * 5);
-  if (randomNamber === 1) {
+  const randomNumber = Math.floor(Math.random() * 5);
+  if (randomNumber === 1) {
     container.classList.add("golden");
   } else if (container.classList.contains("golden")) {
     container.classList.remove("golden");
@@ -141,6 +133,7 @@ function createLetter() {
       fill: "both",
     }
   );
+  // remove letter when it`s winished anmation what equals that letter get to the end of display
   Promise.all(
     container.getAnimations().map((animation) => animation.finished)
   ).then(() => container.remove());
@@ -178,8 +171,16 @@ function startGame() {
         }
         timerValue.textContent = null;
         isPlaying = false;
+        // points calc
+        totalPoints = countUsualButtonsPoints + countGoldenButtonPoints;
+        h2.textContent = "Total";
+        span.textContent = totalPoints;
+        h3.textContent = "Golden Letters:";
+        span1.textContent = `x${countGoldenButtons} : `;
+        span2.textContent = countGoldenButtonPoints;
         mainContainer.appendChild(pointsContainer);
         pointsContainer.appendChild(newStart);
+        //
         newStart.addEventListener("click", startGame);
       } else {
         timerValue.textContent--;

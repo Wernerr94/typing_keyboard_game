@@ -1,8 +1,0 @@
-for each item document.createElement()
-div->img or text
-give random spawn place by position absolute 
-left: Math.floor(Math.random * innerWidth)
-start top position top: -2vh
-animate position top by element.animate
-if keydown match element desc delete element
-for golden element increase duration time
